@@ -1,0 +1,495 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>抖音视频数据统计/分析及导出 - geckoinfo.top</title>
+  <link rel="stylesheet" href="styles/pp.css">
+</head>
+
+<body>
+  <div class="container-main">
+    <div class="bg-light py-2 px-1">
+      <div class="d-flex">
+        <div class="flex-grow-1">
+          <a class="navbar-brand d-flex align-items-center" href="#">
+            <img src="icons/128.png" alt="Logo" style="width: 24px;">
+            <span class="d-inline-block logo-title text-bolder">&nbsp;&nbsp;抖音视频数据统计/分析及导出</span>
+          </a>
+        </div>
+        <div class="px-3">
+          <span class="text-primary text-center" id="pro-tag" style="font-size: 0.7rem;"><i
+              class="bi bi-box2-heart-fill"></i>&nbsp;PRO</span>
+        </div>
+      </div>
+
+    </div>
+    <div class="d-flex flex-row">
+      <div class="d-flex flex-column border-right-gray-300" style="width: 4rem;">
+        <ul class="nav nav-flush flex-column mb-auto text-center nav-left-ul">
+          <li>
+            <a href="#home" class="nav-link active py-3 fs-4" aria-current="page" title="主页" data-bs-toggle="tab">
+              <i class="bi bi-house-door-fill"></i>
+            </a>
+          </li>
+          <li>
+            <a href="#setting" class="nav-link py-3" title="设置" data-bs-toggle="tab" data-bs-target="#setting">
+              <i class="bi bi-gear-fill fs-4"></i>
+            </a>
+          </li>
+          <li>
+            <a href="#joinus" class="nav-link py-3" title="join us" id="a-joinus" data-bs-toggle="tab"
+              data-bs-target="#joinus">
+              <i class="bi bi-box2-heart-fill fs-4"></i>
+            </a>
+          </li>
+
+        </ul>
+      </div>
+
+      <!-- Tab panes -->
+      <div class="tab-content main-content mt-1">
+
+        <div class="tab-pane active container" id="home">
+
+          <div class="tip-page">
+            <p class="mt-3 fw-bolder text-center text-warning fs-2"> <i class="bi bi-lightbulb-fill"></i></p>
+            <p class="mt-3 fw-bolder text-center fs-6">请打开抖音再开始</p>
+            <p class="mt-3 text-center fs-6 open-dy"><a href="https://www.douyin.com">去抖音</a></p>
+          </div>
+
+          <ul class="nav nav-tabs" id="productTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link btn active" id="image-tab" data-bs-toggle="tab" data-bs-target="#image-tab-pane"
+                type="button" role="tab" aria-controls="image-tab-pane" aria-selected="true"><i
+                  class="bi bi-card-image"></i>&nbsp;互动数据<span></span></button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="video-tab" data-bs-toggle="tab" data-bs-target="#video-tab-pane"
+                type="button" role="tab" aria-controls="video-tab-pane" aria-selected="false"><i
+                  class="bi bi-film"></i>&nbsp;标签数据<span></span></button>
+            </li>
+
+          </ul>
+
+          <div class="tab-content" id="productTabContent">
+
+            <div class="d-flex justify-content-center mt-5" id="div-loading">
+              <div class="spinner-grow spinner-grow-sm text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <div class="spinner-grow spinner-grow-sm text-success ms-2" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <div class="spinner-grow spinner-grow-sm text-danger ms-2" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <div class="spinner-grow spinner-grow-sm text-warning ms-2" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+
+            <!-- image start-->
+            <div class="tab-pane fade show active" id="image-tab-pane" role="tabpanel" aria-labelledby="image-tab"
+              tabindex="0">
+              <div class="mt-1 image-card-content">
+                <div class="justify-content-start d-flex user-info-div">
+                  <div class="col-1 u-avatar"><img src="" style="width: 30px;border-radius: 15px;"></div>
+                  <div class="col-6 u-name my-auto ms-2"><a><span></span></a></div>
+                  <div class="col-5 justify-content-start d-flex">
+
+                    <button type="button" class="btn btn-sm btn-outline-primary w-50" id="stat-btn-play">
+                      <i class="bi bi-play-circle"></i>
+                      &nbsp;<t>开始</t>
+                    </button>
+
+                    <button type="button" class="btn btn-sm btn-outline-success w-50 ms-1" id="stat-btn-export">
+                      <i class="bi bi-file-earmark-spreadsheet"></i>
+                      &nbsp;<t>导出</t>
+                    </button>
+
+
+
+                  </div>
+                </div>
+                <div class="user-data-content">
+                  <canvas id="line-type-demo" style="width:100%;max-width:500px"></canvas>
+                  <hr />
+                  <!--视频数据 start-->
+                  <div class="row">
+                    <div class="col-4 mb-2 pe-0">
+                      <div class="card border-left-primary shadow bg-body-secondary">
+                        <div class="card-body">
+                          <div class="row  align-items-center">
+                            <div class="col mx-auto">
+                              <div class="mb-1"><span class="h5" id="checkedAllCount">0</span></div>
+                              <div class="is-small  fw-lighter  mb-1">选中时间内视频数量</div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="col-8 mb-2">
+                      <div class="card border-left-success shadow h-100 bg-body-secondary">
+                        <div class="card-body d-flex align-items-center">
+                          <div class="row">
+                            <div class="input-group input-group-sm mb-1">
+                              <input type="text" readonly class="form-control" id="start-input" placeholder="开始月份">
+                              <span class="input-group-text">至</span>
+                              <input type="text" readonly class="form-control" id="end-input" placeholder="结束月份">
+                              <button class="btn btn-sm btn-outline-success" id="btn-reset" type="button"> 重置</button>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--视频数据 end-->
+                  <!--互动数据 start-->
+                  <div class="row">
+                    <div class="col-3 mb-2 pe-0">
+                      <div class="card border-left-warning shadow bg-body-secondary">
+                        <div class="card-body">
+                          <div class="row align-items-center">
+                            <div class="col">
+                              <div class="mb-1"><span class="h5" id="diggCount">0</span></div>
+                              <div class="is-small  fw-lighter  mb-1">总点赞量</div>
+                              <div class="hd-icon fw-lighter ps-0 text-opacity-25">
+                                <i class="bi bi-heart  fs-5"></i>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-3 mb-2 pe-0">
+                      <div class="card border-left-danger shadow bg-body-secondary">
+                        <div class="card-body">
+                          <div class="row  align-items-center">
+                            <div class="col mx-auto">
+                              <div class="mb-1"><span class="h5" id="commentCount">0</span></div>
+                              <div class="is-small  fw-lighter  mb-1">总评论量</div>
+                              <div class="hd-icon fw-lighter ps-0 text-opacity-25">
+                                <i class="bi bi-chat-dots fs-5"></i>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-3 mb-2 pe-0">
+                      <div class="card border-left-info shadow bg-body-secondary">
+                        <div class="card-body">
+                          <div class="row  align-items-center">
+                            <div class="col mx-auto">
+                              <div class="mb-1"><span class="h5" id="collectCount">0</span></div>
+                              <div class="is-small  fw-lighter  mb-1">总收藏量</div>
+                              <div class="hd-icon fw-lighter ps-0 text-opacity-25">
+                                <i class="bi bi-star fs-5"></i>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-3 mb-2">
+                      <div class="card border-left-primary shadow bg-body-secondary">
+                        <div class="card-body">
+                          <div class="row  align-items-center">
+                            <div class="col mx-auto">
+                              <div class="mb-1"><span class="h5" id="shareCount">0</span></div>
+                              <div class="is-small  fw-lighter  mb-1">总分享量</div>
+                              <div class="hd-icon fw-lighter ps-0 text-opacity-25">
+                                <i class="bi bi-box-arrow-up-right fs-5"></i>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--互动数据 end-->
+                  <!-- 统计数据-start-->
+                  <div class="row">
+                    <div class="col-6 mb-2 pe-0">
+                      <div class="card border-left-primary shadow bg-info-subtle">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="d-flex align-items-center w-100">
+                              <div><i class="bi bi-heart me-1"></i> </div>
+                              <div><span id="diggAverage">0</span></div>
+                              <div class="is-small  fw-lighter ms-1 pt-2">视频点赞平均量</div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="col-6 mb-2">
+                      <div class="card border-left-warning shadow bg-info-subtle">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="d-flex align-items-center w-100">
+                              <div><i class="bi bi-chat-dots me-1"></i> </div>
+                              <div><span id="commentAverage">0</span></div>
+                              <div class="is-small  fw-lighter ms-1 pt-2">视频评论平均量</div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-6 mb-2 pe-0">
+                      <div class="card border-left-success shadow bg-info-subtle">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="d-flex align-items-center w-100">
+                              <div><i class="bi bi-star me-1"></i> </div>
+                              <div class=""><span id="collectAverage">0</span></div>
+                              <div class="is-small  fw-lighter ms-1 pt-2">视频收藏平均量</div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="col-6 mb-2">
+                      <div class="card border-left-info shadow bg-info-subtle">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="d-flex align-items-center w-100">
+                              <div><i class="bi bi-box-arrow-up-right me-1"></i> </div>
+                              <div class=""><span id="shareAverage">0</span></div>
+                              <div class="is-small  fw-lighter ms-1 pt-2">视频分享平均量</div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-6 mb-2 pe-0">
+                      <div class="card border-left-danger shadow bg-primary-subtle">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="d-flex align-items-center w-100">
+                              <div><i class="bi bi-camera-video me-1"></i> </div>
+                              <div class=""><span id="dateAverage">0</span></div>
+                              <div class="is-small  fw-lighter ms-1 pt-2">每天发布视频量</div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="col-6 mb-2">
+                      <div class="card border-left-dark shadow bg-primary-subtle">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="d-flex align-items-center w-100">
+                              <div><i class="bi bi-camera-video me-1"></i> </div>
+                              <div class=""><span id="weekAverage">0</span></div>
+                              <div class="is-small  fw-lighter ms-1 pt-2">每周发布视频量</div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <div class="row mb-2">
+                    <div class="col-6 mb-2 pe-0">
+                      <div class="card border-left-info shadow bg-primary-subtle">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="d-flex align-items-center w-100">
+                              <div><i class="bi bi-stopwatch me-1"></i> </div>
+                              <div class=""><span id="durationAverage"></span></div>
+                              <div class="is-small  fw-lighter ms-1 pt-2">视频平均时长</div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                  <!-- 统计数据-end-->
+                </div>
+              </div>
+            </div>
+            <!-- image end-->
+
+            <div class="tab-pane fade" id="video-tab-pane" role="tabpanel" aria-labelledby="video-tab" tabindex="0">
+              <div class="d-flex flex-row-reverse mt-2">
+
+              </div>
+              <div class="video-card-content">
+                <div class="justify-content-start d-flex user-info-div">
+                  <div class="col-1 u-avatar"><img src="" style="width: 30px;border-radius: 15px;"></div>
+                  <div class="col-7 u-name my-auto ms-2"><a><span></span></a></div>
+                  <div class="col-5">
+                    <button type="button" class="btn btn-sm btn-outline-success w-50 ms-5" id="tag-btn-export">
+                      <i class="bi bi-file-earmark-spreadsheet"></i>
+                      &nbsp;<t>导出</t>
+                    </button>
+                  </div>
+                </div>
+                <canvas id="bar-type-demo" style="width:100%;max-width:500px"></canvas>
+                <hr />
+                <!--tags数据汇总 start-->
+                <div class="row">
+                  <div class="col-4 mb-2 pe-0">
+                    <div class="card border-left-primary shadow bg-body-secondary">
+                      <div class="card-body">
+                        <div class="row  align-items-center">
+                          <div class="col mx-auto">
+                            <div class="mb-1"><span class="h5" id="checkedTagCount">0</span></div>
+                            <div class="is-small  fw-lighter  mb-1">选中时间内视频标签数量</div>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="col-8 mb-2">
+                    <div class="card border-left-success shadow h-100 bg-body-secondary">
+                      <div class="card-body d-flex align-items-center">
+                        <div class="row">
+                          <div class="input-group input-group-sm mb-1">
+                            <input type="text" readonly class="form-control" id="tag-start-input" placeholder="开始月份">
+                            <span class="input-group-text">至</span>
+                            <input type="text" readonly class="form-control" id="tag-end-input" placeholder="结束月份">
+                            <button class="btn btn-sm btn-outline-success" id="btn-tag-reset" type="button"> 重置</button>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--tags数据汇总 end-->
+                <!--tags数据统计 start-->
+                <div class="row">
+                  <div class="col-6 mb-2 pe-0">
+                    <div class="card border-left-primary shadow bg-info-subtle">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="d-flex align-items-center w-100">
+                            <div><i class="bi bi-bookmark-heart me-1"></i> </div>
+                            <div><span id="tagMax"></span></div>
+                            <div class="is-small  fw-lighter ms-1 pt-2">使用频率最高的标签</div>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="col-6 mb-2">
+                    <div class="card border-left-warning shadow bg-info-subtle">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="d-flex align-items-center w-100">
+                            <div><i class="bi bi-bookmark-star me-1"></i> </div>
+                            <div><span id="tagAverage"></span></div>
+                            <div class="is-small  fw-lighter ms-1 pt-2">每个视频标签平均量</div>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+                <!--tags数据统计 end-->
+              </div>
+
+
+            </div>
+
+          </div>
+
+        </div>
+        <div class="tab-pane container" id="setting">
+          <div class="mt-3 text-bolder text-center">你当前 Token</div>
+          <p class="fw-lighter mt-1 text-center" style="font-size: 0.6rem;" id="current-license-key"></p>
+          <div class="unsubscription-div">
+
+            <div class="mt-2">
+              <div class="form-group mr-0 mb-2">
+                <input type="text" class="form-control form-control-sm" id="input-license-key">
+              </div>
+            </div>
+
+            <div class="mt-3 w-100 text-center">
+              <button type="button" id="btn-license-key" class="btn btn-primary btn-sm w-50">
+                <i class="bi bi-save2"></i>&nbsp;&nbsp;更新 Token
+              </button>
+            </div>
+            <p class="text-center mt-1 tip-p" style="font-size: 0.6rem;display: none;">Tips:&nbsp;<span
+                class="fw-light text-danger" id="tip-p">It will only work with a vaild preminum token</p>
+            <p class="text-center mt-4" style="font-size: 0.6rem;">Note:&nbsp;<span class="fw-light">It will only work
+                with a vaild preminum token</p>
+          </div>
+          <div class="subscription-div mt-3">
+            <hr>
+            <p class="mt-3 fw-bolder text-center text-danger fs-2"><i class="bi bi-heart"></i></p>
+            <p class="mt-3 mb-0 fw-bolder text-center fs-6">谢谢你的支持!</p>
+            <p class="my-0 text-center">Your <span class="tfw-bolder text-primary">PRO</span> 会员到期时间 </p>
+            <p class="fw-bolder text-center mt-0 mb-2" id="membership-time">6/15/2023,5:02:12 PM</p>
+          </div>
+        </div>
+        <div class="tab-pane container" id="joinus">
+
+          <div class="fw-ligther div-info fst-italic mt-2 text-center">
+            <p>免费版本可展示/导出不超过<span class="limited-num text-danger text-bolder fs-2">20</span>条最新纪录</p>
+            <p>如需获取更多或全部数据，请点击下方的 <span class="text-bolder fs-5">「订阅」</span>按钮</p>
+          </div>
+          <div class="mt-3">
+
+            <div class="col-12 text-center">
+              <button type="button" class="btn btn-danger login-btn" style="width: 50%;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-alt"
+                  viewBox="0 0 16 16">
+                  <path
+                    d="M1 13.5a.5.5 0 0 0 .5.5h3.797a.5.5 0 0 0 .439-.26L11 3h3.5a.5.5 0 0 0 0-1h-3.797a.5.5 0 0 0-.439.26L5 13H1.5a.5.5 0 0 0-.5.5zm10 0a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 0-1h-3a.5.5 0 0 0-.5.5z">
+                  </path>
+                </svg>
+                订阅
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="pp.js"></script>
+</body>
+
+</html>
